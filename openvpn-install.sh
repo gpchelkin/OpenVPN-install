@@ -81,6 +81,15 @@ if [[ "$IP" = "" ]]; then
 	IP=$(wget -qO- ipv4.icanhazip.com)
 fi
 
+# Auto installation mode
+AUTOMODE='0'
+if [[ "$1" = '--autoinstall' ]]; then
+    AUTOMODE='1'
+fi
+if [[ "$AUTOMODE" = '1' ]]; then
+    source "openvpn-config.sh"
+fi
+
 if [[ -e /etc/openvpn/server.conf ]]; then
 	while :
 	do
@@ -194,10 +203,14 @@ else
 	echo "I need to know the IPv4 address of the network interface you want OpenVPN listening to."
 	echo "If your server is running behind a NAT, (e.g. LowEndSpirit, Scaleway) leave the IP address as it is. (local/private IP)"
 	echo "Otherwise, it should be your public IPv4 address."
-	read -p "IP address: " -e -i $IP IP
+	if [[ "$AUTOMODE" = '0' ]]; then
+        read -p "IP address: " -e -i $IP IP
+    fi
 	echo ""
 	echo "What port do you want for OpenVPN?"
-	read -p "Port: " -e -i 1194 PORT
+    if [[ "$AUTOMODE" = '0' ]]; then
+        read -p "Port: " -e -i 1194 PORT
+    fi
 	echo ""
 	echo "What protocol do you want for OpenVPN?"
 	echo "Unless UDP is blocked, you should not use TCP (unnecessarily slower)"
@@ -302,9 +315,12 @@ else
 	done
 	echo ""
 	echo "Okay, that was all I needed. We are ready to setup your OpenVPN server now"
-	read -n1 -r -p "Press any key to continue..."
+	if [[ "$AUTOMODE" = '0' ]]; then
+        read -n1 -r -p "Press any key to continue..."
+    fi
 
 	if [[ "$OS" = 'debian' ]]; then
+        apt-get update
 		apt-get install ca-certificates -y
 		# We add the OpenVPN repo to get the latest version.
 		# Debian 7
@@ -560,7 +576,11 @@ verb 3" >> /etc/openvpn/server.conf
                 echo "If your server is NATed (e.g. LowEndSpirit, Scaleway, or behind a router),"
                 echo "then I need to know the address that can be used to access it from outside."
                 echo "If that's not the case, just ignore this and leave the next field blank"
-                read -p "External IP or domain name: " -e USEREXTERNALIP
+                if [[ "$AUTOMODE" = '0' ]]; then
+                    read -p "External IP or domain name: " -e USEREXTERNALIP
+                else
+                    USEREXTERNALIP=$EXTERNALIP
+                fi
 		if [[ "$USEREXTERNALIP" != "" ]]; then
 			IP=$USEREXTERNALIP
 		fi
