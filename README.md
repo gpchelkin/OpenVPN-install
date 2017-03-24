@@ -24,7 +24,7 @@ Then run it :
 
 `./openvpn-install.sh`
 
-##### Auto-install
+#### Auto-install
 
 If you want the auto-install feature (no user input) from _gpchelkin_'s repo:
 
