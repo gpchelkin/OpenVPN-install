@@ -88,6 +88,7 @@ if [[ "$1" = '--autoinstall' ]]; then
 fi
 if [[ "$AUTOMODE" = '1' ]]; then
     source "openvpn-config.sh"
+    option=1
 fi
 
 if [[ -e /etc/openvpn/server.conf ]]; then
@@ -103,13 +104,17 @@ if [[ -e /etc/openvpn/server.conf ]]; then
 		echo "   2) Revoke existing user cert"
 		echo "   3) Remove OpenVPN"
 		echo "   4) Exit"
-		read -p "Select an option [1-4]: " option
+        if [[ "$AUTOMODE" = '0' ]]; then
+            read -p "Select an option [1-4]: " option
+        fi
 		case $option in
 			1)
 			echo ""
 			echo "Tell me a name for the client cert"
 			echo "Please, use one word only, no special characters"
-			read -p "Client name: " -e -i client CLIENT
+            if [[ "$AUTOMODE" = '0' ]]; then
+                read -p "Client name: " -e -i client CLIENT
+            fi
 			cd /etc/openvpn/easy-rsa/
 			./easyrsa build-client-full $CLIENT nopass
 			# Generates the custom client.ovpn

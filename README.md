@@ -24,17 +24,6 @@ Then run it :
 
 `./openvpn-install.sh`
 
-#### Auto-install
-
-If you want the auto-install feature (no user input) from _gpchelkin_'s repo:
-
-```
-wget https://raw.githubusercontent.com/gpchelkin/OpenVPN-install/auto-install/openvpn-install.sh
-wget https://raw.githubusercontent.com/gpchelkin/OpenVPN-install/auto-install/openvpn-config.sh
-chmod +x openvpn-install.sh
-./openvpn-install.sh --autoinstall
-```
-
 The first time you run it, you'll have to follow the assistant and answer a few questions to setup your VPN server.
 
 When OpenVPN is installed, you can run the script again, and you will get the choice to :
@@ -44,6 +33,27 @@ When OpenVPN is installed, you can run the script again, and you will get the ch
 - Uninstall OpenVPN
 
 ![](https://lut.im/Z8xfJ8WqyO/3JoPmJK8VRp6zwOE)
+
+### Auto-install
+
+If you want the auto-install feature to avoid any user input from _gpchelkin_'s repo:
+
+```
+wget https://raw.githubusercontent.com/gpchelkin/OpenVPN-install/auto-install/openvpn-install.sh
+wget https://raw.githubusercontent.com/gpchelkin/OpenVPN-install/auto-install/openvpn-config.sh
+chmod +x openvpn-install.sh
+nano openvpn-config.sh
+./openvpn-install.sh --autoinstall
+```
+
+#### Auto-add user
+
+Launching with installed OpenVPN  will result in automatically adding user:
+
+```
+nano openvpn-config.sh
+./openvpn-install.sh --autoinstall
+```
 
 ## Why make a fork ?
 
