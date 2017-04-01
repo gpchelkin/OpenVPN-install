@@ -43,7 +43,7 @@ wget https://raw.githubusercontent.com/gpchelkin/OpenVPN-install/auto-install/op
 wget https://raw.githubusercontent.com/gpchelkin/OpenVPN-install/auto-install/openvpn-config.sh
 chmod +x openvpn-install.sh
 nano openvpn-config.sh
-./openvpn-install.sh --autoinstall
+./openvpn-install.sh
 ```
 
 #### Auto-add user
@@ -52,7 +52,10 @@ Launching with installed OpenVPN  will result in automatically adding user:
 
 ```
 nano openvpn-config.sh
-./openvpn-install.sh --autoinstall
+# or just
+export CLIENT=tester
+sed -ri "s/(CLIENT=)'[^']+'/\1'$CLIENT'/" openvpn-config.sh
+./openvpn-install.sh
 ```
 
 ## Why make a fork ?

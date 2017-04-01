@@ -83,11 +83,11 @@ fi
 
 # Auto installation mode
 AUTOMODE='0'
-if [[ "$1" = '--autoinstall' ]]; then
+if [[ -e openvpn-config.sh ]]; then
     AUTOMODE='1'
 fi
 if [[ "$AUTOMODE" = '1' ]]; then
-    source "openvpn-config.sh"
+    source openvpn-config.sh
     option=1
 fi
 
