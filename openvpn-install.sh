@@ -443,6 +443,7 @@ WantedBy=multi-user.target" > /etc/systemd/system/rc-local.service
 		echo "proto tcp" >> /etc/openvpn/server.conf
 	fi
 	echo "dev tun
+tun-mtu 1300
 user nobody
 group $NOGROUP
 persist-key
@@ -599,6 +600,7 @@ verb 3" >> /etc/openvpn/server.conf
 	fi
 	echo "remote $IP $PORT
 dev tun
+tun-mtu 1300
 resolv-retry infinite
 nobind
 persist-key
